@@ -1,22 +1,20 @@
-from typing import Optional
-
 from pydantic import BaseModel, Field
 
-class TaskBase(BaseModel):
-    title: Optional[str] = Field(None, example="クリーニングを取りに行く")
+class TaskCommon(BaseModel):
+    name: str = Field("", example="買い出しに行く")
+    done: bool = Field(False)
 
-class TaskCreate(TaskBase):
-    pass
-
-class TaskCreateResponse(TaskBase):
+class Task(TaskCommon):
     id: int
 
     class Config:
         orm_mode = True
 
-class Task(TaskBase):
+class TaskPost(BaseModel):
+    name: str = Field("", example="買い出しに行く")
+
+class TaskPostRes(BaseModel):
     id: int
-    done: bool = Field(False, description="完了フラグ")
 
     class Config:
         orm_mode = True
